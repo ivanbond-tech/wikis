@@ -16,7 +16,7 @@
       <li>802-1x.system-ca-certs no</li>
     </ul>
     <p>If you already have a previous configuration established, you can edit these settings using the <code>nmcli connection edit &ltconfig-name&gt</code> command and edit the settings with <code>set &ltsetting&gt &ltvalue&gt</code>. Otherwise, you can create a brand new connection configuration with these settings using the following command...</p>
-    <code>nmcli connection add type wifi con-name "&ltconfig-name&gt" ifname &ltwifi-card-name&gt ssid "eduroam" wifi-sec.key-mgmt wpa-eap 802-1x.identity "&ltnetwork-login-username&gt" 802-1x.password "&ltnetwork-login-password&gt" 802-1x.system-ca-certs no 802-1x.eap "peap" 802-1x.phase2-auth mschapv2</code>
+    <code>nmcli connection add type wifi con-name "&ltconfig-name&gt" ifname &ltwifi-card-name&gt ssid "&ltssid-name&gt" wifi-sec.key-mgmt wpa-eap 802-1x.identity "&ltnetwork-login-username&gt" 802-1x.password "&ltnetwork-login-password&gt" 802-1x.system-ca-certs no 802-1x.eap "peap" 802-1x.phase2-auth mschapv2</code>
   </li>
   <li>
     <h2>Activate connection</h2>
