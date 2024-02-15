@@ -112,7 +112,7 @@
       </ul>
       <h5>Installing Dependencies, Enabling Networking</h5>
       <ul>
-        <li>Install required packages: <code>$ pacman -S networkmanager grub openssh xmlto inetutils wget bc</code></li>
+        <li>Install required packages: <code>$ pacman -S networkmanager grub openssh xmlto inetutils wget bc linux-headers</code></li>
         <li>Enable networking: <code>$ systemctl enable NetworkManager</code></li>
         <li><code>$ vim /etc/ssh/sshd_config</code>, and uncomment/edit these lines:
           <ul>
