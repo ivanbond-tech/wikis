@@ -10,6 +10,7 @@
   - `make modules_install`
   - `make install`
 - Install kernel, build initramfs
+  - `cp -v arch/x86/boot/bzImage /boot/vmlinuz-<release>-gentoo`
   - `genkernel --install --kernel-config=/usr/src/linux/.config initramfs`
 - Update bootloader
   - `grub-install --target=x86_64-efi --efi-directory=/boot`
