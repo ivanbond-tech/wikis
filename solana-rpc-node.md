@@ -1,0 +1,94 @@
+- - ### Setting up a Solana RPC Node (Ubuntu 20.04 LTS)
+    ----------------------------------------------------
+    - Built on Google Cloud Platform (GCP) VM:
+      - n2d-custom
+      - AMD EPYC 7B12 8vCPU (4c) @ 2.25 GHz
+      - 128GB DDR4 RAM
+      - 3TB SSD, Ubuntu 20.04 LTS disk
+    ----------------------------------------------------
+    - Create Solana User
+      - `sudo groupadd solana`
+      - `sudo useradd -m -g user -G solana -s /bin/bash solana`
+      - `sudo passwd solana`
+      - `sudo visudo`
+        - `%solana ALL=(ALL) NOPASSWD: ALL`
+      - `su - solana`
+      - `sudo apt update ; sudo apt upgrade -y`
+    - Setup Folders
+      - `sudo mkdir /mnt/solana-snapshots`
+      - `sudo mkdir /mnt/solana-ledger`
+      - `sudo mkdir /mnt/solana-accounts`
+      - `sudo mkdir /mnt/solana-logs`
+      - `sudo chown -R solana:solana /mnt/solana-*`
+    - Create 100GB Swapfile (optional)
+      - `sudo touch /mnt/swapfile`
+      - `sudo dd if=/dev/zero of=/mnt/swapfile bs=1024 count=100000k`
+      - `sudo chmod 600 /mnt/swapfile`
+      - `sudo mkswap /mnt/swapfile`
+      - `sudo swapon /mnt/swapfile`
+      - `sudo vim /etc/fstab`
+        - `/mnt/swapfile swap swap defaults 0 0`
+      - `sudo mount -a`
+    - Setup Disks
+      - Create 3 1TB partitions: `sudo cfdisk /dev/sda`
+      - `sudo mkfs.ext4 /dev/sda2`
+      - `sudo mkfs.ext4 /dev/sda3`
+      - `sudo vim /etc/fstab`
+        - `/dev/sda1 / ext4 defaults,noatime 0 1`
+        - `/dev/sda2 /mnt/solana-ledger ext4 defaults 0 1`
+        - `/dev/sda3 /mnt/solana-accounts ext4 defaults 0 1`
+      - `sudo mount /dev/sda2 /mnt/solana-ledger`
+      - `sudo mount /dev/sda3 /mnt/solana-accounts`
+      - `sudo chown -R solana:solana /mnt/solana-ledger`
+      - `sudo chown -R solana:solana /mnt/solana-accounts`
+      - `sudo reboot` for changes to take effect
+    - Building Solana-CLI from source
+      - Install Dependencies
+        - `sudo apt install build-essential pkg-config libudev-dev llvm libclang-dev protobuf-compiler python3-pip`
+      - Install Rust
+        - `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+        - `source ~/.cargo/env`
+      - Download source code
+        - `cd /mnt`
+        - `sudo wget https://github.com/solana-labs/solana/archive/refs/tags/v1.17.22.tar.gz`
+        - `sudo mv v1.17.22.tar.gz solana.tar.gz`
+        - `sudo tar -xzvf solana.tar.gz`
+        - `sudo rm -f solana.tar.gz`
+        - `sudo mv solana-1.17.22 solana`
+        - `sudo chown -R solana:solana solana`
+        - `cd solana`
+      - Build solana-cli
+        - `./scripts/cargo-install-all.sh .`
+        - `export PATH=$PWD/bin:$PATH`
+        - `solana-install init 1.17.22`
+    - Setting up Validator
+      - Generating new keypair
+        - `solana-keygen new --no-bip39-passphrase -o ~/validator-keypair.json`
+      - Creating validator shell scripts
+        - `cd ~ && mkdir bin`
+        - `sudo chown -R solana:solana bin`
+        - `cd bin`
+        - `scp ubuntu@ivanbond.tech:ivanbond.tech/solana-validator/validator.sh .`
+        - `scp ubuntu@ivanbond.tech:ivanbond.tech/solana-validator/snapshot.sh .`
+        - `scp ubuntu@ivanbond.tech:ivanbond.tech/solana-validator/restart.sh .`
+        - `sudo chown -R solana:solana .`
+        - `sudo chmod 755 *.sh`
+      - Getting python helper files
+        - `scp ubuntu@ivanbond.tech:ivanbond.tech/solana-validator/*.py .` 
+      - Creating validator service
+        - `scp ubuntu@ivanbond.tech:ivanbond.tech/solana-validator/solana-validator.service /etc/systemd/system/`
+        - `sudo chmod 755 /etc/systemd/system/solana-validator.service`
+        - `sudo systemctl enable solana-validator.service`
+        - `sudo systemctl start solana-validator.service`
+      - Tuning validator
+        - `sudo scp ubuntu@ivanbond.tech:ivanbond.tech/solana-validator/22-solana-validator.conf /etc/sysctl.d/`
+        - `sudo sysctl -p`
+        - `echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils`
+        - (may not work...)`echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor`
+    - Downloading latest Snapshot
+      - Download requirements
+        - `pip3 install tqdm ; pip3 install requests`
+      - Run snapshot-finder.py
+        - `python3 snapshot-finder.py --snapshot_path /mnt/solana-snapshots --version 1.17 --max_latency 150`
+    - Run validator
+      - `~/bin/restart.sh 1` 
