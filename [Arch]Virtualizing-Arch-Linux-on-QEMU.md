@@ -176,6 +176,7 @@
       <h5>Manual Configurations, <code>$ vim .config</code></h5>
       <li>Append release: set <code>CONFIG_LOCALVERSION="-arch-1980"</code></li>
       <li>Use LZ4 compression: set <code>CONFIG_KERNEL_LZ4=y</code></li>
+      <li>Debug (BTF) Info: set <code>CONFIG_DEBUG_INFO_BTF=n</code></li>
       <h5>Compilation</h5>
       <li><code>$ make -j&ltn&gt</code>, where n is the # of cores available in your VM</li>
       <li>Compile modules: <code>$ make modules</code></li>
