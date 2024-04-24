@@ -86,7 +86,6 @@
     <ol>
       <h5>First steps</h5>
       <ul>
-        <li>Set password for root: <code>$ passwd</code></li>
         <li>Verify networking is properly configured: <code>$ ping pitt.edu</code></li>
       </ul>
       <h5>Partitioning Virtual Disk</h5>
@@ -112,6 +111,7 @@
       </ul>
       <h5>Installing Dependencies, Enabling Networking</h5>
       <ul>
+        <li>Set password for root: <code>$ passwd</code></li>
         <li>Install required packages: <code>$ pacman -S networkmanager grub openssh xmlto inetutils wget bc linux-headers git python3 pahole</code></li>
         <li>Enable networking: <code>$ systemctl enable NetworkManager</code></li>
         <li><code>$ vim /etc/ssh/sshd_config</code>, and uncomment/edit these lines:
