@@ -15,3 +15,16 @@
 - Update bootloader
   - `grub-install --target=x86_64-efi --efi-directory=/boot`
   - `grub-mkconfig -o /boot/grub/grub.cfg`
+
+### Updating System Packages
+- Sync portage tree
+  - `emerge --sync`
+- Update portage package manager before using
+  - `emerge --oneshot sys-apps/portage`
+- Update all packages
+  - `emerge --update --deep --newuse @world`
+  - or `emerge -avuDN @world` for shorthand
+- Update config (dot) files
+  - `sudo etc-update`
+- Cleanup
+  - `emerge --depclean`   
