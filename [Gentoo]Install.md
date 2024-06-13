@@ -104,4 +104,32 @@
 <ul>
   <li><code>cd /usr/src/linux</code></li>
   <li><code>make menuconfig</code></li>
+  <li>Set Kernel options in menu...</li>
+  <li><code>make -j&ltnum-threads&gt</code></li>
+  <li><code>make modules_install</code></li>
+  <li><code>make install</code></li>
+  <li>Install kernel, build initramfs</li>
+  <li><code>cp -v arch/x86/boot/bzImage /boot/vmlinuz-&ltrelease&gt-gentoo</code></li>
+  <li><code>genkernel --install --kernel-config=/usr/src/linux/.config initramfs</code></li>
+  <li>Update bootloader</li>
+  <li><code>grub-install --target=x86_64-efi --efi-directory=/boot</code></li>
+  <li><code>grub-mkconfig -o /boot/grub/grub.cfg</code></li>
+</ul>
+<h4>Final Configurations</h4>
+<ul>
+  <li><code>echo &lthostname&gt > /etc/hostname</code></li>
+  <h5>Network Configuration</h5>
+  <ul>
+    <li><code>emerge --noreplace net-misc/netifrc</code></li>
+    <li><code>emerge net-misc/dhcpcd</code></li>
+    <li><code>echo "config_&ltnetwork-device&gt='dhcp'" > /etc/conf.d/net</code></li>
+    <li><code>cd /etc/init.d</code></li>
+    <li><code>ln -s net.lo net.&ltnetwork-device&gt</code></li>
+    <li><code>rc-update add net.&ltnetwork-device&gt default</code></li>
+  </ul>
+  <h5>Setting up /etc/fstab</h5>
+  <ul>
+    <li><code>blkid -s UUID -o value /dev/&ltpart-number&gt</code></li>
+    <li><code></code></li>
+  </ul>
 </ul>
