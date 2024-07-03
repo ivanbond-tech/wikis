@@ -122,7 +122,7 @@
 </ul>
 
 <h3>Server Host Setup</h3>
-<p>There is much needed on the host side to setup, apart from copying the SSHD Configuration steps from the Reverse Proxy Host Setup, but changing the <code>Port</code> to the SSH Port # from the Example Network table. If the server host has a firewall enabled, ensure that it is configured properly to work with the reverse proxy.</p>
+<p>There isn't much needed on the host side to setup, apart from copying the SSHD Configuration steps from the Reverse Proxy Host Setup, but changing the <code>Port</code> to the SSH Port # from the Example Network table. If the server host has a firewall enabled, ensure that it is configured properly to work with the reverse proxy.</p>
 <p>Additionally, if the <code>sshd.service</code> is not enabled on startup, it can be set using the following commands...</p>
 <ul>
   <li>systemd: <code>sudo systemctl enable sshd && sudo systemctl start sshd</code></li>
