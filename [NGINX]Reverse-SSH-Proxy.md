@@ -129,6 +129,9 @@
   <li>openrc: <code>sudo rc-update add sshd default && sudo rc-service sshd start</code></li>
 </ul>
 
+<h3>Final Configurations (Port-Forwarding, DNS)</h3>
+<p>Ensure that your domain (example.com) and all desired subdomains are pointing to your local network's public IP address. This is usually done by creating an 'A RECORD' on your DNS provider's web portal. Lastly, ensure that all required ports are correctly forwarded in your router settings, like port 22 (SSH) for TCP/UDP on your reverse proxy host.</p>
+
 <h3>Testing SSH</h3>
 <p>Assuming all went well, you can now access your server hosts using the following syntax...</p>
 <ul>
